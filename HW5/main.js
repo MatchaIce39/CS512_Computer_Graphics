@@ -42,7 +42,7 @@ void main() {
   float shininess = 32.0;
 
   vec3 N = (uShadingMode == 1) 
-    ? normalize(cross(vPosition - vPosition), (vPosition - vPosition));
+    ? normalize(cross(dFdx(vPosition), dFdy(vPosition))) 
     : normalize(vNormal);
 
   vec3 L = normalize(uLightPos - vPosition);
