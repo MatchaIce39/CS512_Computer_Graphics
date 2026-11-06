@@ -163,9 +163,9 @@ function createMesh({ positions, normals, tangents, texCoords, indices }) {
   return { vao, count: indices.length };
 }
 
-const cubeMesh = createMesh(createCube());
-const cubeMesh2 = createMesh(createCube());
-//const cylinderMesh = createMesh(createCylinder());
+const cubeMesh = createMesh(createFloorTile());
+const cubeMesh2 = createMesh(createFloorTile());
+const cylinderMesh = createMesh(createCylinder());
 
 
 function loadTexture(url) {
@@ -191,8 +191,8 @@ const normalTexture = loadTexture("texture2.jpg");
 const BUMP_MAPPING = 0, NORMAL_MAPPING = 1;
 const objects = [
   { mesh: cubeMesh, texture: brickTexture, mapping: BUMP_MAPPING, offset: [-1.8, 0, 0] },
-  { mesh: cylinderMesh, texture: normalTexture, mapping: NORMAL_MAPPING, offset: [1.8, 0, 0] }
-  //{ mesh: cubeMesh2, texture: brickTexture, mapping: NORMAL_MAPPING, offset: [2.8, 0, 0] }
+  { mesh: cylinderMesh, texture: normalTexture, mapping: NORMAL_MAPPING, offset: [1.8, 0, 0] },
+  { mesh: cubeMesh2, texture: brickTexture, mapping: NORMAL_MAPPING, offset: [-2.8, 1.0, 0] }
 ];
 
 //quick test comment
@@ -208,6 +208,7 @@ let camX = 0, camY = 0, camZ = -7;      // arrow keys, w, s
 let sliderAngle = 0;                    // degrees
 let spinning = false, spinAngle = 0;    // Start/Stop button
 
+/*
 let mouseDown = false, lastX, lastY;
 canvas.addEventListener("mousedown", e => { mouseDown = true; lastX = e.clientX; lastY = e.clientY; });
 window.addEventListener("mouseup", () => mouseDown = false);
@@ -217,13 +218,14 @@ window.addEventListener("mousemove", e => {
   dragRotX += (e.clientY - lastY) * 0.01;
   lastX = e.clientX; lastY = e.clientY;
 });
+*/
 
 document.addEventListener("keydown", e => {
   if (e.target === vertEditor || e.target === fragEditor) return;
   const step = 0.2;
   switch (e.key) {
-    case "ArrowUp": camY -= step; break;
-    case "ArrowDown": camY += step; break;
+    case "ArrowUp": camZ += step; break;
+    case "ArrowDown": camZ -= step; break;
     case "ArrowLeft": camX += step; break;
     case "ArrowRight": camX -= step; break;
     case "w": camZ += step; break;
