@@ -165,13 +165,43 @@ function createMesh({ positions, normals, tangents, texCoords, indices }) {
 }
 
 //Making the meshs with their properties
+
+//1x medium floor tile
 const medOne = createMesh(createMedFloorTile());
+
+//2x long floor tiles
 const longOne = createMesh(createLongFloorTile());
 const longTwo = createMesh(createLongFloorTile());
+
+//2x small floor tiles
 const smallOne = createMesh(createSmallFloorTile());
 const smallTwo = createMesh(createSmallFloorTile());
+
+//1x square floor tiles
 const squareOne = createMesh(createSquareFloorTile());
+
+//4x Columns
+const colOne = createMesh(createColumn());
+const colTwo = createMesh(createColumn());
+const colThree = createMesh(createColumn());
+const colFour = createMesh(createColumn());
+
+//1x medium steps
+const medStepOne = createMesh(createMedStep());
+
+//2x large steps
+const largeStepOne = createMesh(createLargeStep());
+const largeStepTwo = createMesh(createLargeStep());
+
+//1x inner floor tile (Do this last, it will fit into place)
+const innerStep = createMesh(createInnerStep());
+
+//Toxic waste barrel
 const cylinderMesh = createMesh(createCylinder());
+
+//Invisbility sphere
+
+//Health Bonus
 
 //Loading the textures to the GPU
 function loadTexture(url) {
@@ -208,7 +238,7 @@ const objects = [
   { mesh: cylinderMesh, 
     texture: normalTexture, 
     mapping: NORMAL_MAPPING, 
-    offset: [1.8, -0.7, 0],
+    offset: [1.8, -1.0, 0],
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
 
@@ -230,8 +260,8 @@ const objects = [
   { mesh: smallOne, 
     texture: brickTexture, 
     mapping: NORMAL_MAPPING, 
-    offset: [3.3, -0.7, -10.0], //x = side to side, y = up and down, z = back and forth
-    rotX: Math.PI / 2, rotY: 0, rotZ: 0
+    offset: [3.3, -0.7, -9.0], //x = side to side, y = up and down, z = back and forth
+    rotX: Math.PI / 2, rotY: 0, rotZ: Math.PI / 2
     },
 
     //small floor tile closest to the start
@@ -248,7 +278,72 @@ const objects = [
     mapping: NORMAL_MAPPING, 
     offset: [6.3, -0.7, -10.0],
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
-    }
+    },
+
+  //Column 1
+  { mesh: colOne, 
+    texture: brickTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [0.9, -0.9, -3.5], //x = side to side, y = up and down, z = back and forth
+    rotX: Math.PI / 2, rotY: 0, rotZ: 0
+    },
+
+  //Column 2
+  { mesh: colTwo, 
+    texture: brickTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [0.9, -0.9, 3.5], //x = side to side, y = up and down, z = back and forth
+    rotX: Math.PI / 2, rotY: 0, rotZ: 0
+    },
+  
+  //Column 3
+  { mesh: colThree, 
+    texture: brickTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [6.5, -0.9, 3.5], //x = side to side, y = up and down, z = back and forth
+    rotX: Math.PI / 2, rotY: 0, rotZ: 0
+    },
+
+  //Column 4
+  { mesh: colFour, 
+    texture: brickTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [6.5, -0.9, -3.5], //x = side to side, y = up and down, z = back and forth
+    rotX: Math.PI / 2, rotY: 0, rotZ: 0
+    },
+  
+    //Large inner step 1 that is on the far side
+  { mesh: largeStepOne, 
+    texture: brickTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [4.8, -0.9, -3.5], //x = side to side, y = up and down, z = back and forth
+    rotX: Math.PI / 2, rotY: 0, rotZ: 0
+    },
+
+    //Large Inner step 2
+  { mesh: largeStepTwo, 
+    texture: brickTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [4.8, -0.9, 3.5], //x = side to side, y = up and down, z = back and forth
+    rotX: Math.PI / 2, rotY: 0, rotZ: 0
+    },
+
+  // medium step
+  { mesh: medStepOne, 
+    texture: brickTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [0.8, -0.9, -0.0], //x = side to side, y = up and down, z = back and forth
+    rotX: Math.PI / 2, rotY: 0, rotZ: Math.PI / 2
+    },
+
+    // inner carpet area
+  { mesh: innerStep, 
+    texture: brickTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [4.8, -1.1, -0.0], //x = side to side, y = up and down, z = back and forth
+    rotX: Math.PI / 2, rotY: 0, rotZ: Math.PI / 2
+    },
+
 ];
 
 gl.enable(gl.DEPTH_TEST);

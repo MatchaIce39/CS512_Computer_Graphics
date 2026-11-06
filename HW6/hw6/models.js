@@ -143,6 +143,123 @@ function createColumn() {
   return { positions, normals, tangents, texCoords, indices };
 }
 
+//creating the two longer steps that I need two of
+function createLargeStep() {
+  const positions = new Float32Array([
+    -3.5, -0.5,  0.1,   3.5, -0.5,  0.1,   3.5,  0.5,  0.1,  -3.5,  0.5,  0.1,   // front
+     3.5, -0.5, -0.1,  -3.5, -0.5, -0.1,  -3.5,  0.5, -0.1,   3.5,  0.5, -0.1,   // back
+    -3.5,  0.5,  0.1,   3.5,  0.5,  0.1,   3.5,  0.5, -0.1,  -3.5,  0.5, -0.1,   // top
+    -3.5, -0.5, -0.1,   3.5, -0.5, -0.1,   3.5, -0.5,  0.1,  -3.5, -0.5,  0.1,   // bottom
+     3.5, -0.5,  0.1,   3.5, -0.5, -0.1,   3.5,  0.5, -0.1,   3.5,  0.5,  0.1,   // right
+    -3.5, -0.5, -0.1,  -3.5, -0.5,  0.1,  -3.5,  0.5,  0.1,  -3.5,  0.5, -0.1    // left
+  ]);
+  const faceNormals = [[0, 0, 1], [0, 0, -1], [0, 1, 0], [0, -1, 0], [1, 0, 0], [-1, 0, 0]];
+  const normals = new Float32Array(faceNormals.flatMap(n => [...n, ...n, ...n, ...n]));
+
+  // Tangent; bitangent = cross(N, T)
+  const faceTangents = [[1, 0, 0], [-1, 0, 0], [1, 0, 0], [1, 0, 0], [0, 0, -1], [0, 0, 1]];
+  const tangents = new Float32Array(faceTangents.flatMap(t => [...t, ...t, ...t, ...t]));
+
+  const texCoords = new Float32Array(faceNormals.flatMap(() => [0, 0, 1, 0, 1, 1, 0, 1]));
+
+  const indices = new Uint16Array([
+     0,  1,  2,   0,  2,  3,   // front
+     4,  5,  6,   4,  6,  7,   // back
+     8,  9, 10,   8, 10, 11,   // top
+    12, 13, 14,  12, 14, 15,   // bottom
+    16, 17, 18,  16, 18, 19,   // right
+    20, 21, 22,  20, 22, 23    // left
+  ]);
+  return { positions, normals, tangents, texCoords, indices };
+}
+
+//Creating the medium step that I only need one of
+function createMedStep() {
+  const positions = new Float32Array([
+    -3.0, -0.5,  0.1,   3.0, -0.5,  0.1,   3.0,  0.5,  0.1,  -3.0,  0.5,  0.1,   // front
+     3.0, -0.5, -0.1,  -3.0, -0.5, -0.1,  -3.0,  0.5, -0.1,   3.0,  0.5, -0.1,   // back
+    -3.0,  0.5,  0.1,   3.0,  0.5,  0.1,   3.0,  0.5, -0.1,  -3.0,  0.5, -0.1,   // top
+    -3.0, -0.5, -0.1,   3.0, -0.5, -0.1,   3.0, -0.5,  0.1,  -3.0, -0.5,  0.1,   // bottom
+     3.0, -0.5,  0.1,   3.0, -0.5, -0.1,   3.0,  0.5, -0.1,   3.0,  0.5,  0.1,   // right
+    -3.0, -0.5, -0.1,  -3.0, -0.5,  0.1,  -3.0,  0.5,  0.1,  -3.0,  0.5, -0.1    // left
+  ]);
+  const faceNormals = [[0, 0, 1], [0, 0, -1], [0, 1, 0], [0, -1, 0], [1, 0, 0], [-1, 0, 0]];
+  const normals = new Float32Array(faceNormals.flatMap(n => [...n, ...n, ...n, ...n]));
+
+  // Tangent; bitangent = cross(N, T)
+  const faceTangents = [[1, 0, 0], [-1, 0, 0], [1, 0, 0], [1, 0, 0], [0, 0, -1], [0, 0, 1]];
+  const tangents = new Float32Array(faceTangents.flatMap(t => [...t, ...t, ...t, ...t]));
+
+  const texCoords = new Float32Array(faceNormals.flatMap(() => [0, 0, 1, 0, 1, 1, 0, 1]));
+
+  const indices = new Uint16Array([
+     0,  1,  2,   0,  2,  3,   // front
+     4,  5,  6,   4,  6,  7,   // back
+     8,  9, 10,   8, 10, 11,   // top
+    12, 13, 14,  12, 14, 15,   // bottom
+    16, 17, 18,  16, 18, 19,   // right
+    20, 21, 22,  20, 22, 23    // left
+  ]);
+  return { positions, normals, tangents, texCoords, indices };
+}
+
+//Creating the inner step
+function createInnerStep() {
+  const positions = new Float32Array([
+    -3.0, -3.5,  0.1,   3.0, -3.5,  0.1,   3.0,  3.5,  0.1,  -3.0,  3.5,  0.1,   // front
+     3.0, -3.5, -0.1,  -3.0, -3.5, -0.1,  -3.0,  3.5, -0.1,   3.0,  3.5, -0.1,   // back
+    -3.0,  3.5,  0.1,   3.0,  3.5,  0.1,   3.0,  3.5, -0.1,  -3.0,  3.5, -0.1,   // top
+    -3.0, -3.5, -0.1,   3.0, -3.5, -0.1,   3.0, -3.5,  0.1,  -3.0, -3.5,  0.1,   // bottom
+     3.0, -3.5,  0.1,   3.0, -3.5, -0.1,   3.0,  3.5, -0.1,   3.0,  3.5,  0.1,   // right
+    -3.0, -3.5, -0.1,  -3.0, -3.5,  0.1,  -3.0,  3.5,  0.1,  -3.0,  3.5, -0.1    // left
+  ]);
+  const faceNormals = [[0, 0, 1], [0, 0, -1], [0, 1, 0], [0, -1, 0], [1, 0, 0], [-1, 0, 0]];
+  const normals = new Float32Array(faceNormals.flatMap(n => [...n, ...n, ...n, ...n]));
+
+  // Tangent; bitangent = cross(N, T)
+  const faceTangents = [[1, 0, 0], [-1, 0, 0], [1, 0, 0], [1, 0, 0], [0, 0, -1], [0, 0, 1]];
+  const tangents = new Float32Array(faceTangents.flatMap(t => [...t, ...t, ...t, ...t]));
+
+  const texCoords = new Float32Array(faceNormals.flatMap(() => [0, 0, 1, 0, 1, 1, 0, 1]));
+
+  const indices = new Uint16Array([
+     0,  1,  2,   0,  2,  3,   // front
+     4,  5,  6,   4,  6,  7,   // back
+     8,  9, 10,   8, 10, 11,   // top
+    12, 13, 14,  12, 14, 15,   // bottom
+    16, 17, 18,  16, 18, 19,   // right
+    20, 21, 22,  20, 22, 23    // left
+  ]);
+  return { positions, normals, tangents, texCoords, indices };
+}
+
+//Sphere for invisbilty sphere with Gif
+function createSphere(segments = 32, rings = 24) {
+  const positions = [], normals = [], tangents = [], texCoords = [], indices = [];
+
+  for (let ring = 0; ring <= rings; ring++) {
+    const v = ring / rings;
+    const phi = Math.PI * v;
+    const sinPhi = Math.sin(phi), cosPhi = Math.cos(phi);
+
+    for (let segment = 0; segment <= segments; segment++) {
+      const u = segment / segments;
+      const theta = 2 * Math.PI * u;
+      const sinTheta = Math.sin(theta), cosTheta = Math.cos(theta);
+      const x = sinPhi * sinTheta;
+      const y = cosPhi;
+      const z = sinPhi * cosTheta;
+
+      positions.push(x, y, z);
+      normals.push(x, y, z);
+      tangents.push(cosTheta, 0, -sinTheta);
+      texCoords.push(u, 1 - v);
+    }
+  }
+}
+
+
+//For toxic waste barrel
 function createCylinder(segments = 64, uRepeat = 3) {
   const positions = [], normals = [], tangents = [], texCoords = [], indices = [];
 
