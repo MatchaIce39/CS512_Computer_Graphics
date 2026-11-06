@@ -194,9 +194,26 @@ const normalTexture = loadTexture("HW6/hw6/texture2.jpg");
 //Putting the objects into the scene
 const BUMP_MAPPING = 0, NORMAL_MAPPING = 1;
 const objects = [
-  { mesh: cubeMesh, texture: brickTexture, mapping: BUMP_MAPPING, offset: [-1.8, 0, 0] },
-  { mesh: cylinderMesh, texture: normalTexture, mapping: NORMAL_MAPPING, offset: [1.8, 0, 0] },
-  { mesh: cubeMesh2, texture: brickTexture, mapping: NORMAL_MAPPING, offset: [-2.8, 1.0, 0] }
+  { mesh: cubeMesh, 
+    texture: brickTexture, 
+    mapping: BUMP_MAPPING, 
+    offset: [-1.7, -0.7, 0],
+    rotX: Math.PI / 2, rotY: 0, rotZ: 0
+    }, // new modifer for making the floor tiles 90 degrees when you spawn in
+
+  { mesh: cylinderMesh, 
+    texture: normalTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [1.8, -0.7, 0],
+    rotX: Math.PI / 2, rotY: 0, rotZ: 0
+    },
+
+  { mesh: cubeMesh2, 
+    texture: brickTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [-3.5, -0.7, -2.0],
+    rotX: Math.PI / 2, rotY: 0, rotZ: Math.PI / 2
+    }
 ];
 
 gl.enable(gl.DEPTH_TEST);
@@ -229,12 +246,12 @@ document.addEventListener("keydown", e => {
   switch (e.key) {
     case "ArrowUp": camZ += step; break;
     case "ArrowDown": camZ -= step; break;
-    case "ArrowLeft": dragRotX += step; break;
-    case "ArrowRight": dragRotX -= step; break;
+    case "ArrowLeft": dragRotY -= step; break;
+    case "ArrowRight": dragRotY += step; break;
     case "w": camZ += step; break;
     case "s": camZ -= step; break;
-    case "a": camX += step; break;
-    case "d": camX -= step; break;
+    case "a": camY += step; break;
+    case "d": camY -= step; break;
     default: return;
   }
   e.preventDefault();
@@ -248,6 +265,7 @@ document.getElementById("slider").addEventListener("input", e => {
 document.getElementById("spinButton").addEventListener("click", () => spinning = !spinning);
 
 // Render loop
+// Render loop
 let lastTime = 0;
 function render(time) {
   const t = time / 1000;
@@ -255,16 +273,31 @@ function render(time) {
   lastTime = t;
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  const view = translate(camX, camY, camZ);
+  // 1. BUILD THE CAMERA (VIEW) MATRIX USING DRAG / ARROW KEYS
+  // Instead of moving the objects, we rotate the whole world view here:
+  const cameraRotation = multiply(rotateX(dragRotX), rotateY(dragRotY));
+  const cameraTranslation = translate(camX, camY, camZ);
+  const view = multiply(cameraRotation, cameraTranslation);
+
   gl.uniformMatrix4fv(uProjection, false, projection);
   gl.uniform3fv(uLightPos, transformPoint(view, lightWorld));
 
+  // 2. OBJECT ROTATION IS NOW JUST INDEPENDENT (like your slider or base rotation)
   const axisRotation = ROTATE[axisSelect.value](sliderAngle * Math.PI / 180 + spinAngle);
-  const rotation = multiply(multiply(rotateY(dragRotY), rotateX(dragRotX)), axisRotation);
 
   gl.activeTexture(gl.TEXTURE0);
-  for (const { mesh, texture, mapping, offset } of objects) {
-    gl.uniformMatrix4fv(uModelView, false, multiply(view, multiply(translate(...offset), rotation)));
+  for (const { mesh, texture, mapping, offset, rotX, rotY, rotZ } of objects) {
+    
+    // Create the object's local starting tilt (if you used the local rotation method)
+    const localBaseRotation = multiply(multiply(rotateX(rotX), rotateY(rotY)), rotateZ(rotZ));
+    
+    // Combine the object's local tilt with any active slider/spin animation
+    const objectRotation = multiply(localBaseRotation, axisRotation);
+
+    // Build the final Model-View matrix: View Matrix * Object Position * Object Rotation
+    const modelView = multiply(view, multiply(translate(...offset), objectRotation));
+
+    gl.uniformMatrix4fv(uModelView, false, modelView);
     gl.uniform1i(uMapping, mapping);
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.bindVertexArray(mesh.vao);
