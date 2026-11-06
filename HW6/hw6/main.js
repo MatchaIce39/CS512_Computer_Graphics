@@ -226,13 +226,15 @@ const objects = [
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
 
+    //small one on far side
   { mesh: smallOne, 
     texture: brickTexture, 
     mapping: NORMAL_MAPPING, 
-    offset: [2.3, -0.8, 6.0],
+    offset: [3.3, -0.7, -10.0], //x = side to side, y = up and down, z = back and forth
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
 
+    //small floor tile closest to the start
   { mesh: smallTwo, 
     texture: brickTexture, 
     mapping: NORMAL_MAPPING, 
@@ -240,10 +242,11 @@ const objects = [
     rotX: Math.PI / 2, rotY: 0, rotZ: Math.PI / 2
     },
   
+    //cube on far side
   { mesh: squareOne, 
     texture: brickTexture, 
     mapping: NORMAL_MAPPING, 
-    offset: [2.3, -1.7, 6.0],
+    offset: [6.3, -0.7, -10.0],
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     }
 ];

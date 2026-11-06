@@ -114,6 +114,34 @@ function createSquareFloorTile() {
   return { positions, normals, tangents, texCoords, indices };
 }
 
+function createColumn() {
+  const positions = new Float32Array([
+    -0.5, -0.5,  6,   0.5, -0.5,  6,   0.5,  0.5,  6,  -0.5,  0.5,  6,   // front
+     0.5, -0.5, -6,  -0.5, -0.5, -6,  -0.5,  0.5, -6,   0.5,  0.5, -6,   // back
+    -0.5,  0.5,  6,   0.5,  0.5,  6,   0.5,  0.5, -6,  -0.5,  0.5, -6,   // top
+    -0.5, -0.5, -6,   0.5, -0.5, -6,   0.5, -0.5,  6,  -0.5, -0.5,  6,   // bottom
+     0.5, -0.5,  6,   0.5, -0.5, -6,   0.5,  0.5, -6,   0.5,  0.5,  6,   // right
+    -0.5, -0.5, -6,  -0.5, -0.5,  6,  -0.5,  0.5,  6,  -0.5,  0.5, -6    // left
+  ]);
+  const faceNormals = [[0, 0, 1], [0, 0, -1], [0, 1, 0], [0, -1, 0], [1, 0, 0], [-1, 0, 0]];
+  const normals = new Float32Array(faceNormals.flatMap(n => [...n, ...n, ...n, ...n]));
+
+  // Tangent; bitangent = cross(N, T)
+  const faceTangents = [[1, 0, 0], [-1, 0, 0], [1, 0, 0], [1, 0, 0], [0, 0, -1], [0, 0, 1]];
+  const tangents = new Float32Array(faceTangents.flatMap(t => [...t, ...t, ...t, ...t]));
+
+  const texCoords = new Float32Array(faceNormals.flatMap(() => [0, 0, 1, 0, 1, 1, 0, 1]));
+
+  const indices = new Uint16Array([
+     0,  1,  2,   0,  2,  3,   // front
+     4,  5,  6,   4,  6,  7,   // back
+     8,  9, 10,   8, 10, 11,   // top
+    12, 13, 14,  12, 14, 15,   // bottom
+    16, 17, 18,  16, 18, 19,   // right
+    20, 21, 22,  20, 22, 23    // left
+  ]);
+  return { positions, normals, tangents, texCoords, indices };
+}
 
 function createCylinder(segments = 64, uRepeat = 3) {
   const positions = [], normals = [], tangents = [], texCoords = [], indices = [];
