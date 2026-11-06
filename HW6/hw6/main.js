@@ -164,7 +164,9 @@ function createMesh({ positions, normals, tangents, texCoords, indices }) {
 }
 
 const cubeMesh = createMesh(createCube());
+const cubeMesh2 = createMesh(createCube());
 const cylinderMesh = createMesh(createCylinder());
+
 
 function loadTexture(url) {
   const texture = gl.createTexture();
@@ -190,6 +192,7 @@ const BUMP_MAPPING = 0, NORMAL_MAPPING = 1;
 const objects = [
   { mesh: cubeMesh, texture: brickTexture, mapping: BUMP_MAPPING, offset: [-1.8, 0, 0] },
   { mesh: cylinderMesh, texture: normalTexture, mapping: NORMAL_MAPPING, offset: [1.8, 0, 0] }
+  { mesh: cubeMesh2, texture: brickTexture, mapping: NORMAL_MAPPING, offset: [2.8, 0, 0] }
 ];
 
 gl.enable(gl.DEPTH_TEST);
@@ -223,6 +226,8 @@ document.addEventListener("keydown", e => {
     case "ArrowRight": camX -= step; break;
     case "w": camZ += step; break;
     case "s": camZ -= step; break;
+    case "a": camX += step; break;
+    case "d": camX -= step; break;
     default: return;
   }
   e.preventDefault();
