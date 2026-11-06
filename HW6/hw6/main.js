@@ -165,8 +165,12 @@ function createMesh({ positions, normals, tangents, texCoords, indices }) {
 }
 
 //Making the meshs with their properties
-const cubeMesh = createMesh(createFloorTile());
-const cubeMesh2 = createMesh(createFloorTile());
+const medOne = createMesh(createMedFloorTile());
+const longOne = createMesh(createLongFloorTile());
+const longTwo = createMesh(createLongFloorTile());
+const smallOne = createMesh(createSmallFloorTile());
+const smallTwo = createMesh(createSmallFloorTile());
+const squareOne = createMesh(createSquareFloorTile());
 const cylinderMesh = createMesh(createCylinder());
 
 //Loading the textures to the GPU
@@ -194,11 +198,11 @@ const normalTexture = loadTexture("HW6/hw6/texture2.jpg");
 //Putting the objects into the scene
 const BUMP_MAPPING = 0, NORMAL_MAPPING = 1;
 const objects = [
-  { mesh: cubeMesh, 
+  { mesh: medOne, 
     texture: brickTexture, 
     mapping: BUMP_MAPPING, 
     offset: [-1.7, -0.7, 0],
-    rotX: Math.PI / 2, rotY: 0, rotZ: 0
+    rotX: Math.PI / 2, rotY: 0, rotZ: Math.PI / 2
     }, // new modifer for making the floor tiles 90 degrees when you spawn in
 
   { mesh: cylinderMesh, 
@@ -208,11 +212,39 @@ const objects = [
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
 
-  { mesh: cubeMesh2, 
+  { mesh: longOne, 
     texture: brickTexture, 
     mapping: NORMAL_MAPPING, 
-    offset: [-3.5, -0.7, -2.0],
+    offset: [2.3, -0.7, -6.0],
+    rotX: Math.PI / 2, rotY: 0, rotZ: 0
+    },
+
+  { mesh: longTwo, 
+    texture: brickTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [2.3, -0.7, 6.0],
+    rotX: Math.PI / 2, rotY: 0, rotZ: 0
+    },
+
+  { mesh: smallOne, 
+    texture: brickTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [2.3, -0.8, 6.0],
+    rotX: Math.PI / 2, rotY: 0, rotZ: 0
+    },
+
+  { mesh: smallTwo, 
+    texture: brickTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [2.3, -0.7, 9.0],
     rotX: Math.PI / 2, rotY: 0, rotZ: Math.PI / 2
+    },
+  
+  { mesh: squareOne, 
+    texture: brickTexture, 
+    mapping: NORMAL_MAPPING, 
+    offset: [2.3, -1.7, 6.0],
+    rotX: Math.PI / 2, rotY: 0, rotZ: 0
     }
 ];
 
@@ -223,7 +255,7 @@ const lightWorld = [3, 4, 5];
 
 // Interactive controls
 let dragRotX = 0, dragRotY = -0.5;      // mouse drag
-let camX = 0, camY = 0, camZ = -7;      // arrow keys, w, s
+let camX = -5, camY = 0, camZ = -12;      // arrow keys, w, s
 let sliderAngle = 0;                    // degrees
 let spinning = false, spinAngle = 0;    // Start/Stop button
 
