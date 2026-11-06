@@ -195,6 +195,8 @@ const objects = [
   { mesh: cubeMesh2, texture: brickTexture, mapping: NORMAL_MAPPING, offset: [2.8, 0, 0] }
 ];
 
+//quick test comment
+
 gl.enable(gl.DEPTH_TEST);
 gl.clearColor(0, 0, 0, 1);
 const projection = perspective(Math.PI / 4, canvas.width / canvas.height, 0.1, 100);
