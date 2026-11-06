@@ -151,6 +151,7 @@ function bindAttribute(name, data, size) {
   gl.enableVertexAttribArray(ATTRIBUTES[name]);
 }
 
+//Sending information to GPU
 function createMesh({ positions, normals, tangents, texCoords, indices }) {
   const vao = gl.createVertexArray();
   gl.bindVertexArray(vao);
@@ -163,11 +164,12 @@ function createMesh({ positions, normals, tangents, texCoords, indices }) {
   return { vao, count: indices.length };
 }
 
+//Making the meshs with their properties
 const cubeMesh = createMesh(createFloorTile());
 const cubeMesh2 = createMesh(createFloorTile());
 const cylinderMesh = createMesh(createCylinder());
 
-
+//Loading the textures to the GPU
 function loadTexture(url) {
   const texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -185,17 +187,17 @@ function loadTexture(url) {
   return texture;
 }
 
-const brickTexture = loadTexture("brick.png");
-const normalTexture = loadTexture("texture2.jpg");
+//Variables for our textures
+const brickTexture = loadTexture("HW6/hw6/brick.png");
+const normalTexture = loadTexture("HW6/hw6/texture2.jpg");
 
+//Putting the objects into the scene
 const BUMP_MAPPING = 0, NORMAL_MAPPING = 1;
 const objects = [
   { mesh: cubeMesh, texture: brickTexture, mapping: BUMP_MAPPING, offset: [-1.8, 0, 0] },
   { mesh: cylinderMesh, texture: normalTexture, mapping: NORMAL_MAPPING, offset: [1.8, 0, 0] },
   { mesh: cubeMesh2, texture: brickTexture, mapping: NORMAL_MAPPING, offset: [-2.8, 1.0, 0] }
 ];
-
-//quick test comment
 
 gl.enable(gl.DEPTH_TEST);
 gl.clearColor(0, 0, 0, 1);
@@ -208,6 +210,7 @@ let camX = 0, camY = 0, camZ = -7;      // arrow keys, w, s
 let sliderAngle = 0;                    // degrees
 let spinning = false, spinAngle = 0;    // Start/Stop button
 
+//Commented this out since I don't want things rotating
 /*
 let mouseDown = false, lastX, lastY;
 canvas.addEventListener("mousedown", e => { mouseDown = true; lastX = e.clientX; lastY = e.clientY; });
@@ -226,8 +229,8 @@ document.addEventListener("keydown", e => {
   switch (e.key) {
     case "ArrowUp": camZ += step; break;
     case "ArrowDown": camZ -= step; break;
-    case "ArrowLeft": camX += step; break;
-    case "ArrowRight": camX -= step; break;
+    case "ArrowLeft": dragRotX += step; break;
+    case "ArrowRight": dragRotX -= step; break;
     case "w": camZ += step; break;
     case "s": camZ -= step; break;
     case "a": camX += step; break;
