@@ -165,7 +165,7 @@ function createMesh({ positions, normals, tangents, texCoords, indices }) {
 
 const cubeMesh = createMesh(createCube());
 const cubeMesh2 = createMesh(createCube());
-const cylinderMesh = createMesh(createCylinder());
+//const cylinderMesh = createMesh(createCylinder());
 
 
 function loadTexture(url) {
@@ -192,7 +192,7 @@ const BUMP_MAPPING = 0, NORMAL_MAPPING = 1;
 const objects = [
   { mesh: cubeMesh, texture: brickTexture, mapping: BUMP_MAPPING, offset: [-1.8, 0, 0] },
   { mesh: cylinderMesh, texture: normalTexture, mapping: NORMAL_MAPPING, offset: [1.8, 0, 0] }
-  { mesh: cubeMesh2, texture: brickTexture, mapping: NORMAL_MAPPING, offset: [2.8, 0, 0] }
+  //{ mesh: cubeMesh2, texture: brickTexture, mapping: NORMAL_MAPPING, offset: [2.8, 0, 0] }
 ];
 
 //quick test comment
