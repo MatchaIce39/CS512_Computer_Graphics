@@ -235,28 +235,44 @@ function createInnerStep() {
 }
 
 //Sphere for invisbilty sphere with Gif
-function createSphere(segments = 32, rings = 24) {
-  const positions = [], normals = [], tangents = [], texCoords = [], indices = [];
+function createSphere(r = 1) {
+  const vSteps = 32;
+  const uSteps = 24;
+  const vertices = [];
+  const indices = [];
 
-  for (let ring = 0; ring <= rings; ring++) {
-    const v = ring / rings;
-    const phi = Math.PI * v;
-    const sinPhi = Math.sin(phi), cosPhi = Math.cos(phi);
+  // Generate vertices
+  for (let i = 0; i <= vSteps; i++) {
+    const v = (i * Math.PI) / vSteps; // Latitude from 0 to PI
+    const sinv = Math.sin(v);
+    const cosv = Math.cos(v);
 
-    for (let segment = 0; segment <= segments; segment++) {
-      const u = segment / segments;
-      const theta = 2 * Math.PI * u;
-      const sinTheta = Math.sin(theta), cosTheta = Math.cos(theta);
-      const x = sinPhi * sinTheta;
-      const y = cosPhi;
-      const z = sinPhi * cosTheta;
+    for (let j = 0; j <= uSteps; j++) {
+      const u = (j * 2 * Math.PI) / uSteps; // Longitude from 0 to 2*PI
+      const cosu = Math.cos(u);
+      const sinu = Math.sin(u);
 
-      positions.push(x, y, z);
-      normals.push(x, y, z);
-      tangents.push(cosTheta, 0, -sinTheta);
-      texCoords.push(u, 1 - v);
+      const x = cosu * sinv;
+      const y = cosv;
+      const z = sinu * sinv;
+
+      vertices.push(r * x, r * y, r * z);
     }
   }
+
+  // Generate triangle indices
+  for (let i = 0; i < vSteps; i++) {
+    for (let j = 0; j < uSteps; j++) {
+      const k1 = i * (uSteps + 1) + j;
+      const k2 = k1 + uSteps + 1;
+
+      // Two triangles per grid quad
+      indices.push(k1, k2, k1 + 1);
+      indices.push(k2, k2 + 1, k1 + 1);
+    }
+  }
+
+  return { vertices, indices };
 }
 
 

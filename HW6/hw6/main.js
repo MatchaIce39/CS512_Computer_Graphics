@@ -201,7 +201,8 @@ const cylinderMesh = createMesh(createCylinder());
 
 //Invisbility sphere
 
-//Health Bonus
+//Wall for medium sized thing
+const medWall = createMesh(createMedFloorTile());
 
 //Loading the textures to the GPU
 function loadTexture(url) {
@@ -347,6 +348,13 @@ const objects = [
     mapping: BUMP_MAPPING, 
     offset: [4.8, -1.1, -0.0], //x = side to side, y = up and down, z = back and forth
     rotX: Math.PI / 2, rotY: 0, rotZ: Math.PI / 2
+    },
+
+  { mesh: innerStep, 
+    texture: wallTexture, 
+    mapping: BUMP_MAPPING, 
+    offset: [-2.0, 3.0, -0.0], //x = side to side, y = up and down, z = back and forth
+    rotX: 0, rotY: Math.PI / 2, rotZ: Math.PI / 2
     },
 
 ];
