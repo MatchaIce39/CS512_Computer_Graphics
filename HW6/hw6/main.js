@@ -222,14 +222,18 @@ function loadTexture(url) {
 }
 
 //Variables for our textures
-const brickTexture = loadTexture("HW6/hw6/brick.png");
-const normalTexture = loadTexture("HW6/hw6/texture2.jpg");
+const brickTexture = loadTexture("./brick.png");
+const normalTexture = loadTexture("./texture2.jpg");
+const metalFloor = loadTexture("./textures/FLOOR4_8.png");
+const blueCarpet = loadTexture("./textures/FLAT14.png");
+const brickCeiling = loadTexture("./textures/CEIL3_5.png");
+const wallTexture = loadTexture("./textures/SW19_2.png");
 
 //Putting the objects into the scene
 const BUMP_MAPPING = 0, NORMAL_MAPPING = 1;
 const objects = [
   { mesh: medOne, 
-    texture: brickTexture, 
+    texture: metalFloor, 
     mapping: BUMP_MAPPING, 
     offset: [-1.7, -0.7, 0],
     rotX: Math.PI / 2, rotY: 0, rotZ: Math.PI / 2
@@ -242,40 +246,41 @@ const objects = [
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
 
+
   { mesh: longOne, 
-    texture: brickTexture, 
-    mapping: NORMAL_MAPPING, 
+    texture: metalFloor, 
+    mapping: BUMP_MAPPING, 
     offset: [2.3, -0.7, -6.0],
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
 
   { mesh: longTwo, 
-    texture: brickTexture, 
-    mapping: NORMAL_MAPPING, 
+    texture: metalFloor, 
+    mapping: BUMP_MAPPING, 
     offset: [2.3, -0.7, 6.0],
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
 
     //small one on far side
   { mesh: smallOne, 
-    texture: brickTexture, 
-    mapping: NORMAL_MAPPING, 
+    texture: metalFloor, 
+    mapping: BUMP_MAPPING, 
     offset: [3.3, -0.7, -9.0], //x = side to side, y = up and down, z = back and forth
     rotX: Math.PI / 2, rotY: 0, rotZ: Math.PI / 2
     },
 
     //small floor tile closest to the start
   { mesh: smallTwo, 
-    texture: brickTexture, 
-    mapping: NORMAL_MAPPING, 
+    texture: metalFloor, 
+    mapping: BUMP_MAPPING, 
     offset: [2.3, -0.7, 9.0],
     rotX: Math.PI / 2, rotY: 0, rotZ: Math.PI / 2
     },
   
     //cube on far side
   { mesh: squareOne, 
-    texture: brickTexture, 
-    mapping: NORMAL_MAPPING, 
+    texture: metalFloor, 
+    mapping: BUMP_MAPPING, 
     offset: [6.3, -0.7, -10.0],
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
@@ -283,7 +288,7 @@ const objects = [
   //Column 1
   { mesh: colOne, 
     texture: brickTexture, 
-    mapping: NORMAL_MAPPING, 
+    mapping: BUMP_MAPPING, 
     offset: [0.9, -0.9, -3.5], //x = side to side, y = up and down, z = back and forth
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
@@ -291,7 +296,7 @@ const objects = [
   //Column 2
   { mesh: colTwo, 
     texture: brickTexture, 
-    mapping: NORMAL_MAPPING, 
+    mapping: BUMP_MAPPING, 
     offset: [0.9, -0.9, 3.5], //x = side to side, y = up and down, z = back and forth
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
@@ -299,7 +304,7 @@ const objects = [
   //Column 3
   { mesh: colThree, 
     texture: brickTexture, 
-    mapping: NORMAL_MAPPING, 
+    mapping: BUMP_MAPPING, 
     offset: [6.5, -0.9, 3.5], //x = side to side, y = up and down, z = back and forth
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
@@ -307,39 +312,39 @@ const objects = [
   //Column 4
   { mesh: colFour, 
     texture: brickTexture, 
-    mapping: NORMAL_MAPPING, 
+    mapping: BUMP_MAPPING, 
     offset: [6.5, -0.9, -3.5], //x = side to side, y = up and down, z = back and forth
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
   
     //Large inner step 1 that is on the far side
   { mesh: largeStepOne, 
-    texture: brickTexture, 
-    mapping: NORMAL_MAPPING, 
+    texture: blueCarpet, 
+    mapping: BUMP_MAPPING, 
     offset: [4.8, -0.9, -3.5], //x = side to side, y = up and down, z = back and forth
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
 
     //Large Inner step 2
   { mesh: largeStepTwo, 
-    texture: brickTexture, 
-    mapping: NORMAL_MAPPING, 
+    texture: blueCarpet, 
+    mapping: BUMP_MAPPING, 
     offset: [4.8, -0.9, 3.5], //x = side to side, y = up and down, z = back and forth
     rotX: Math.PI / 2, rotY: 0, rotZ: 0
     },
 
   // medium step
   { mesh: medStepOne, 
-    texture: brickTexture, 
-    mapping: NORMAL_MAPPING, 
+    texture: blueCarpet, 
+    mapping: BUMP_MAPPING, 
     offset: [0.8, -0.9, -0.0], //x = side to side, y = up and down, z = back and forth
     rotX: Math.PI / 2, rotY: 0, rotZ: Math.PI / 2
     },
 
     // inner carpet area
   { mesh: innerStep, 
-    texture: brickTexture, 
-    mapping: NORMAL_MAPPING, 
+    texture: blueCarpet, 
+    mapping: BUMP_MAPPING, 
     offset: [4.8, -1.1, -0.0], //x = side to side, y = up and down, z = back and forth
     rotX: Math.PI / 2, rotY: 0, rotZ: Math.PI / 2
     },
