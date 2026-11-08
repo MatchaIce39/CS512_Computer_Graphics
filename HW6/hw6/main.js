@@ -230,7 +230,6 @@ const metalFloor = loadTexture("./textures/FLOOR4_8.png");
 const blueCarpet = loadTexture("./textures/FLAT14.png");
 const brickCeiling = loadTexture("./textures/CEIL3_5.png");
 const wallTexture = loadTexture("./textures/SW19_2.png");
-const invSphereTexture = loadTexture("./textures/b59j2o.gif");
 
 //Putting the objects into the scene
 const BUMP_MAPPING = 0, NORMAL_MAPPING = 1;
@@ -360,11 +359,11 @@ const objects = [
     },
 
   {  mesh: invSphere, 
-    texture: invSphereTexture, 
+    texture: metalFloor, 
     mapping: BUMP_MAPPING, 
-    offset: [2.0, 2.0, -0.0], //x = side to side, y = up and down, z = back and forth
+    offset: [9.0, 2.0, -0.0], //x = side to side, y = up and down, z = back and forth
     rotX: 0, rotY: Math.PI / 2, rotZ: Math.PI / 2
-    },
+    }
 ];
 
 gl.enable(gl.DEPTH_TEST);
