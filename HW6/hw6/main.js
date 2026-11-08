@@ -223,6 +223,99 @@ function loadTexture(url) {
   return texture;
 }
 
+let copyVideo = false;
+
+function setupVideo(url) {
+  const video = document.createElement("video");
+
+  let playing = false;
+  let timeupdate = false;
+
+  video.playsInline = true;
+  video.muted = true;
+  video.loop = true;
+
+  // Waiting for these 2 events ensures
+  // there is data in the video
+
+  video.addEventListener("playing", () => {
+    playing = true;
+    checkReady();
+  });
+
+  video.addEventListener("timeupdate", () => {
+    timeupdate = true;
+    checkReady();
+  });
+
+  video.src = url;
+  video.play();
+
+  function checkReady() {
+    if (playing && timeupdate) {
+      copyVideo = true;
+    }
+  }
+
+  return video;
+}
+
+function initTexture(gl) {
+  const textureGif = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, textureGif);
+
+  // Because video has to be download over the internet
+  // they might take a moment until it's ready so
+  // put a single pixel in the texture so we can
+  // use it immediately.
+  const level = 0;
+  const internalFormat = gl.RGBA;
+  const width = 1;
+  const height = 1;
+  const border = 0;
+  const srcFormat = gl.RGBA;
+  const srcType = gl.UNSIGNED_BYTE;
+  const pixel = new Uint8Array([0, 0, 255, 255]); // opaque blue
+  gl.texImage2D(
+    gl.TEXTURE_2D,
+    level,
+    internalFormat,
+    width,
+    height,
+    border,
+    srcFormat,
+    srcType,
+    pixel,
+  );
+
+  // Turn off mips and set wrapping to clamp to edge so it
+  // will work regardless of the dimensions of the video.
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+  return textureGif;
+}
+
+function updateTexture(gl, texture, video) {
+  const level = 0;
+  const internalFormat = gl.RGBA;
+  const srcFormat = gl.RGBA;
+  const srcType = gl.UNSIGNED_BYTE;
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.texImage2D(
+    gl.TEXTURE_2D,
+    level,
+    internalFormat,
+    srcFormat,
+    srcType,
+    video,
+  );
+}
+
+const textureGif = initTexture(gl);
+const video = setupVideo("./textures/invisSphere.mp4");
+
 //Variables for our textures
 const brickTexture = loadTexture("./brick.png");
 const normalTexture = loadTexture("./texture2.jpg");
@@ -359,10 +452,10 @@ const objects = [
     },
 
   {  mesh: invSphere, 
-    texture: metalFloor, 
+    texture: textureGif, 
     mapping: BUMP_MAPPING, 
-    offset: [9.0, 2.0, -0.0], //x = side to side, y = up and down, z = back and forth
-    rotX: 0, rotY: Math.PI / 2, rotZ: Math.PI / 2
+    offset: [5.0, 2.0, -0.0], //x = side to side, y = up and down, z = back and forth
+    rotX: Math.PI, rotY: 0, rotZ: 0
     }
 ];
 
@@ -422,6 +515,10 @@ function render(time) {
   if (spinning) spinAngle += t - lastTime;
   lastTime = t;
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+  if(copyVideo){
+    updateTexture(gl, textureGif, video);
+  }
 
   // 1. BUILD THE CAMERA (VIEW) MATRIX USING DRAG / ARROW KEYS
   // Instead of moving the objects, we rotate the whole world view here:
