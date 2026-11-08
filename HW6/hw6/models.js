@@ -235,44 +235,64 @@ function createInnerStep() {
 }
 
 //Sphere for invisbilty sphere with Gif
-function createSphere(r = 1) {
-  const vSteps = 32;
-  const uSteps = 24;
-  const vertices = [];
-  const indices = [];
+function createSphere(segmentsU = 64, segmentsV = 32, uRepeat = 1, vRepeat = 1) {
+  const positions = [], normals = [], tangents = [], texCoords = [], indices = [];
 
-  // Generate vertices
-  for (let i = 0; i <= vSteps; i++) {
-    const v = (i * Math.PI) / vSteps; // Latitude from 0 to PI
-    const sinv = Math.sin(v);
-    const cosv = Math.cos(v);
+  // Generate vertices along latitude (v) and longitude (u) rings
+  for (let j = 0; j <= segmentsV; j++) {
+    const v = j / segmentsV;
+    const phi = Math.PI * v; // 0 (North Pole) to PI (South Pole)
+    const sinPhi = Math.sin(phi);
+    const cosPhi = Math.cos(phi);
 
-    for (let j = 0; j <= uSteps; j++) {
-      const u = (j * 2 * Math.PI) / uSteps; // Longitude from 0 to 2*PI
-      const cosu = Math.cos(u);
-      const sinu = Math.sin(u);
+    for (let i = 0; i <= segmentsU; i++) {
+      const u = i / segmentsU;
+      const theta = 2 * Math.PI * u; // 0 to 2*PI
+      const sinTheta = Math.sin(theta);
+      const cosTheta = Math.cos(theta);
 
-      const x = cosu * sinv;
-      const y = cosv;
-      const z = sinu * sinv;
+      // Unit sphere position where (x = sinTheta * sinPhi, y = cosPhi, z = cosTheta * sinPhi)
+      // Matching the cylinder's orientation: s = sin(theta), c = cos(theta)
+      const x = sinTheta * sinPhi;
+      const y = cosPhi;
+      const z = cosTheta * sinPhi;
 
-      vertices.push(r * x, r * y, r * z);
+      positions.push(x, y, z);
+      normals.push(x, y, z); // For a unit sphere centered at origin, N == P
+
+      // Tangent vector pointing in the direction of increasing u (d/d_theta)
+      // d/d_theta (sinTheta * sinPhi, cosPhi, cosTheta * sinPhi) = (cosTheta * sinPhi, 0, -sinTheta * sinPhi)
+      // Normalized: (cosTheta, 0, -sinTheta) along horizontal latitude rings
+      tangents.push(cosTheta, 0, -sinTheta);
+
+      // Texture coordinates (v = 0 at top/North Pole, v = 1 at bottom/South Pole)
+      texCoords.push(u * uRepeat, (1 - v) * vRepeat);
     }
   }
 
-  // Generate triangle indices
-  for (let i = 0; i < vSteps; i++) {
-    for (let j = 0; j < uSteps; j++) {
-      const k1 = i * (uSteps + 1) + j;
-      const k2 = k1 + uSteps + 1;
+  // Generate triangle indices for the quad grid
+  const rowStride = segmentsU + 1;
+  for (let j = 0; j < segmentsV; j++) {
+    for (let i = 0; i < segmentsU; i++) {
+      const a = j * rowStride + i;
+      const b = (j + 1) * rowStride + i;
 
-      // Two triangles per grid quad
-      indices.push(k1, k2, k1 + 1);
-      indices.push(k2, k2 + 1, k1 + 1);
+      // Two triangles per quad: (a, b, a + 1) and (b, b + 1, a + 1)
+      indices.push(a, b, a + 1);
+      indices.push(b, b + 1, a + 1);
     }
   }
 
-  return { vertices, indices };
+  // Uint32Array ensures safety when total vertex count exceeds 65535
+  const IndexArrayType = (segmentsU + 1) * (segmentsV + 1) > 65535 ? Uint32Array : Uint16Array;
+
+  return {
+    positions: new Float32Array(positions),
+    normals: new Float32Array(normals),
+    tangents: new Float32Array(tangents),
+    texCoords: new Float32Array(texCoords),
+    indices: new IndexArrayType(indices)
+  };
 }
 
 

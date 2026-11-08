@@ -200,6 +200,7 @@ const innerStep = createMesh(createInnerStep());
 const cylinderMesh = createMesh(createCylinder());
 
 //Invisbility sphere
+const invSphere = createMesh(createSphere());
 
 //Wall for medium sized thing
 const medWall = createMesh(createMedFloorTile());
@@ -229,6 +230,7 @@ const metalFloor = loadTexture("./textures/FLOOR4_8.png");
 const blueCarpet = loadTexture("./textures/FLAT14.png");
 const brickCeiling = loadTexture("./textures/CEIL3_5.png");
 const wallTexture = loadTexture("./textures/SW19_2.png");
+const invSphereTexture = loadTexture("./textures/b59j2o.gif");
 
 //Putting the objects into the scene
 const BUMP_MAPPING = 0, NORMAL_MAPPING = 1;
@@ -357,6 +359,12 @@ const objects = [
     rotX: 0, rotY: Math.PI / 2, rotZ: Math.PI / 2
     },
 
+  {  mesh: invSphere, 
+    texture: invSphereTexture, 
+    mapping: BUMP_MAPPING, 
+    offset: [2.0, 2.0, -0.0], //x = side to side, y = up and down, z = back and forth
+    rotX: 0, rotY: Math.PI / 2, rotZ: Math.PI / 2
+    },
 ];
 
 gl.enable(gl.DEPTH_TEST);
